@@ -1,11 +1,23 @@
-import express from 'express'
+import * as express from 'express'
 
-const router = express.Router()
+export default class AuthController {
+    public path = '/auth'
+    public router = express.Router()
 
-router.post('/login', (req, res) => {
-    res.send()
-})
+    constructor() {
+        this.initRoutes()
+    }
 
-router.post('/register', (req, res) => {
-    res.send()
-})
+    public initRoutes(){
+        this.router.post(`${this.path}/login`, this.login)
+        this.router.post(`${this.path}/register`, this.register)
+    }
+
+    private login(request: express.Request, response: express.Response){
+        response.send("test")
+    }
+
+    private register(request: express.Request, response: express.Response){
+        response.send("registered")
+    }
+}
