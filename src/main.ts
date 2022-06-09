@@ -1,11 +1,14 @@
-import express from 'express'
-import dotenv from 'dotenv';
-
-const app = express()
+import App from './app'
+import AuthController from "./controller/auth.controller";
+import * as dotenv from 'dotenv'
 
 dotenv.config({path:`${__dirname}/assets/.env`})
-app.use(express.json())
 
-app.listen(process.env.SERVER_PORT, () => {
-    console.log(`App is running on port ${process.env.SERVER_PORT}`)
-})
+const app = new App(
+    [
+    new AuthController()
+    ],
+    process.env.SERVER_PORT
+)
+
+app.listen()
