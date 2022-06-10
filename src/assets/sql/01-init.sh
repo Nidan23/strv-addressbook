@@ -9,11 +9,4 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
   GRANT ALL PRIVILEGES ON DATABASE $APP_DB_NAME TO $APP_ROOT_USER;
   GRANT ALL PRIVILEGES ON DATABASE postgres TO $APP_ROOT_USER;
   \connect $APP_DB_NAME $APP_DB_USER
-  BEGIN;
-    CREATE TABLE IF NOT EXISTS user_model (
-        email VARCHAR ( 200 ) UNIQUE NOT NULL,
-        password VARCHAR ( 200 ) NOT NULL
-    );
-    INSERT INTO user_model VALUES ('jajja', 'passs');
-  COMMIT;
 EOSQL
