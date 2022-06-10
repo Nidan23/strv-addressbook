@@ -36,6 +36,6 @@ export default class AuthController {
     }
 
     private register(request: express.Request, response: express.Response){
-        response.send("registered")
+        response.redirect('/auth/login')
     }
 }
