@@ -1,5 +1,20 @@
 version: '3'
 services:
+  rest-api:
+    build: ./
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DB_HOST: 192.168.100.219
+      DB_PORT: 5432
+      DB_USER: docker
+      DB_PASSWORD: docker
+      DB_NAME: docker
+    links:
+      - postgres
   postgres:
     image: 'postgres:latest'
     healthcheck:
@@ -20,19 +35,4 @@ services:
       - '5432:5432'
     volumes:
       - ./src/assets/sql:/docker-entrypoint-initdb.d/
-#      - ./src/assets/sql/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
-  rest-api:
-    build: ./
-    depends_on:
-      - postgres
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: docker
-      DB_PASSWORD: docker
-      DB_NAME: docker
-    links:
-      - postgres
+  #      - ./src/assets/sql/init.sql:/docker-entrypoint-initdb.d/create_tables.sql

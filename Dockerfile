@@ -4,6 +4,8 @@ RUN mkdir -p /usr/src/strv
 
 COPY src /usr/src/strv/src
 COPY package.json /usr/src/strv
+COPY package-lock.json /usr/src/strv
+COPY tsconfig.json /usr/src/strv
 
 WORKDIR /usr/src/strv
 
