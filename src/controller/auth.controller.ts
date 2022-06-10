@@ -32,11 +32,15 @@ export default class AuthController {
         try {
             const user: User = request.body
 
-            if ((await UserService.findUser(user)))
+            if ((await UserService.findUser(user))) {
+                console.log(`User ${user.email} just logged in`)
                 return response.status(200).send("Logged Successfully")
+            }
 
+            console.log(`Someone from ${request.ip} tried 2 login using this email: ${user.email}`)
             return response.status(500).send("Something went wrong.")
-        } catch {
+        } catch(e) {
+            console.log(`Error ${e}`)
             return response.status(400).send("Bad request")
         }
     }
@@ -45,11 +49,15 @@ export default class AuthController {
         try {
             const user: User = request.body
 
-            if (!(await UserService.findUser(user)) && (await UserService.saveUser(user)))
+            if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
+                console.log(`User ${user.email} just created account`)
                 response.redirect('/auth/login')
+            }
 
+            console.log(`Someone from ${request.ip} tried 2 register using this email: ${user.email}`)
             return response.status(500).send("Something went wrong. Probably email is already taken")
-        } catch {
+        } catch(e) {
+            console.log(`Error ${e}`)
             return response.status(400).send("Bad request")
         }
     }
