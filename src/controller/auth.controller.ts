@@ -1,8 +1,7 @@
 import * as express from 'express'
-import {DataSource, Repository} from "typeorm";
-import {UserEntity} from "../entity/user.entity";
 import {User} from "../interface/user.type";
 import {userDataSource} from "../service/database.service";
+import {UserService} from "../service/user.service";
 
 export default class AuthController {
     public path = '/auth'
@@ -29,31 +28,32 @@ export default class AuthController {
             })
     }
 
-    private login(request: express.Request, response: express.Response){
-        const user: User = request.body
+    private async login(request: express.Request, response: express.Response) {
+        try {
+            const user: User = request.body
 
-        userDataSource.getRepository(UserEntity).findOne({ where: user})
-            .then(r => {
-                response.send("Logged Successfully")
-            })
-            .catch(err => {
-                console.log(err)
+            if ((await UserService.findUser(user)))
+                return response.status(200).send("Logged Successfully")
 
-                response.status(500).send("Something went wrong. Your login data isn't correct")
-            })
+            return response.status(500).send("Something went wrong.")
+        } catch {
+            return response.status(400).send("Bad request")
+        }
     }
 
-    private register(request: express.Request, response: express.Response){
-        const user: User = request.body
+    private async register(request: express.Request, response: express.Response) {
+        try {
+            const user: User = request.body
 
-        userDataSource.getRepository(UserEntity).save(user)
-            .then(r => {
+            if (!(await UserService.findUser(user)) && (await UserService.saveUser(user)))
                 response.redirect('/auth/login')
-            })
-            .catch(err => {
-                console.log(err)
 
-                response.status(500).send("Something went wrong. Probably email is already taken")
-            })
+            return response.status(500).send("Something went wrong. Probably email is already taken")
+        } catch {
+            return response.status(400).send("Bad request")
+        }
     }
+
+
 }
+
