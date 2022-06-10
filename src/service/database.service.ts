@@ -1,18 +1,13 @@
-import {Pool} from "pg";
+import { DataSource } from "typeorm"
 
-const pool = new Pool({
+export const userDataSource = new DataSource({
+    type: "postgres",
     host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
+    port: parseInt(process.env.DB_PORT || "5432"),
+    username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || "5432")
-});
-
-const connectToDB = async () => {
-    try {
-        await pool.connect();
-    } catch (err) {
-        console.log(err);
-    }
-};
-connectToDB();
+    database: process.env.DB_NAME,
+    entities: ["src/entity/*.ts"],
+    logging: true,
+    synchronize: true,
+})
