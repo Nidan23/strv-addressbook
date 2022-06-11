@@ -1,6 +1,6 @@
-docker network rm strv_default
-
 docker stop strv_postgres_1 strv_rest-api_1
+
+docker network rm strv_default
 
 docker rm strv_postgres_1 strv_rest-api_1
 
