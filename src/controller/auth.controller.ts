@@ -2,6 +2,7 @@ import * as express from 'express'
 import {User} from "../interface/user.type";
 import {userDataSource} from "../service/database.service";
 import {UserService} from "../service/user.service";
+import {ValidationService} from "../service/validation.service";
 
 export default class AuthController {
     public path = '/auth'
@@ -32,6 +33,9 @@ export default class AuthController {
         try {
             const user: User = request.body
 
+            if(!ValidationService.validateEmail(user.email))
+                return response.status(400).send("Your email is not valid")
+
             if ((await UserService.findUser(user))) {
                 console.log(`User ${user.email} just logged in`)
                 return response.status(200).send("Logged Successfully")
@@ -49,9 +53,12 @@ export default class AuthController {
         try {
             const user: User = request.body
 
+            if(!ValidationService.validateEmail(user.email))
+                return response.status(400).send("Your email is not valid")
+
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
                 console.log(`User ${user.email} just created account`)
-                response.redirect('/auth/login')
+                return response.redirect('/auth/login')
             }
 
             console.log(`Someone from ${request.ip} tried 2 register using this email: ${user.email}`)
