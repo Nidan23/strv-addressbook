@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken"
 import {VariableService} from "./variable.service";
 import {UserService} from "./user.service";
 import {AuthorizeUserType} from "../interface/authorizeUser.type";
+import {UserValidation} from "../interface/validation.type";
 
 export class AuthService{
 
@@ -14,16 +15,21 @@ export class AuthService{
         return jwt.verify(token, VariableService.secretKey)
     }
 
-    public static async validateJwtToken(token: string): Promise<boolean>{
+    public static async validateJwtToken(token: string): Promise<UserValidation>{
         try {
             const {email, password} = this.resolveDataFromJwtToken(token) as AuthorizeUserType
             const user: User = {email, password} as User
 
-            return (await UserService.findUser(user));
+            return {
+                isValid: (await UserService.findUser(user)),
+                data: user
+            }
         } catch (e){
             console.log(VariableService.verifyTokenError)
 
-            return false
+            return {
+                isValid: false
+            }
         }
 
     }
