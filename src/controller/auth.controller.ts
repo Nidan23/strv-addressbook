@@ -33,8 +33,10 @@ export default class AuthController {
         try {
             const user: User = request.body
 
-            if(!ValidationService.validateEmail(user.email))
+            if(!ValidationService.validateEmail(user.email)) {
+                console.log(`Someone from IP ${request.ip} tried to login with invalid email: ${user.email}`)
                 return response.status(400).send("Your email is not valid")
+            }
 
             if ((await UserService.findUser(user))) {
                 console.log(`User ${user.email} just logged in`)
@@ -53,12 +55,14 @@ export default class AuthController {
         try {
             const user: User = request.body
 
-            if(!ValidationService.validateEmail(user.email))
+            if(!ValidationService.validateEmail(user.email)) {
+                console.log(`Someone from IP ${request.ip} tried to register with invalid email: ${user.email}`)
                 return response.status(400).send("Your email is not valid")
+            }
 
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
                 console.log(`User ${user.email} just created account`)
-                return response.redirect('/auth/login')
+                return response.status(200).send("Account created successfully, you're already logged in")
             }
 
             console.log(`Someone from ${request.ip} tried 2 register using this email: ${user.email}`)
