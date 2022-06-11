@@ -36,4 +36,9 @@ export class VariableService{
     // Token
     public static secretKey: string = "I Love Typescript!"
     public static tokenExpirationTime: string = "1h"
+
+    // Firebase
+    public static userCollectionPath: string = "/users"
+    public static contactsCollectionPath: string = "/contacts"
+    public static certPath: string = "./src/assets/firebase_key.json"
 }
