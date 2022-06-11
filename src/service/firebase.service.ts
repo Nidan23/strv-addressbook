@@ -19,15 +19,22 @@ export class FirebaseService{
         this.db = getFirestore(this.app)
     }
 
-    public static async addContact(user: User, payload: Contact): Promise<boolean>{
-        const userContactsPath = this.db.collection(VariableService.userCollectionPath).doc(user.email).collection(VariableService.contactsCollectionPath)
-        const contactPath = userContactsPath.doc(payload.lastName)
+    public static addContact(user: User, payload: Contact[]): Promise<boolean>{
+        return new Promise<boolean>(async resolve => {
+            const userContactsPath = this.db.collection(VariableService.userCollectionPath).doc(user.email).collection(VariableService.contactsCollectionPath)
 
-        const returnValue = await contactPath.set(payload)
-            .catch(err => {
-                console.log(err)
-            })
+            for (const contact of payload) {
+                const contactPath = userContactsPath.doc(contact.lastName)
 
-        return !!returnValue;
+                const returnValue = await contactPath.set(payload)
+                    .catch(err => {
+                        console.log(err)
+                        return resolve(!!returnValue)
+                    })
+            }
+
+
+            return resolve(true);
+        })
     }
 }

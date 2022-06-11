@@ -23,15 +23,16 @@ export default class ContactsController {
     }
 
     private async addContacts(request: express.Request, response: express.Response){
-        const contact: Contact = request.body.data
+        const contacts: Contact[] = request.body.data
         const validationData: UserValidation = await AuthService.validateJwtToken(request.body.token)
 
         if(!validationData.isValid)
             return response.send('Not valid')
 
 
-        if(await FirebaseService.addContact(validationData.data, contact))
+        if(await FirebaseService.addContact(validationData.data, contacts))
             return response.send("Contact added 2 your account")
 
+        return response.send("Something went wrong")
     }
 }
