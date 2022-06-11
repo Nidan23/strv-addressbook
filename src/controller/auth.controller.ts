@@ -62,6 +62,7 @@ export default class AuthController {
             }
 
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
+                // TODO add token generation here -> no redirection, just authService & generate token here & in login endpoint
                 console.log(`${VariableService.user} ${user.email} ${VariableService.accountCreated}`)
                 return response.status(200).send(VariableService.registered)
             }
