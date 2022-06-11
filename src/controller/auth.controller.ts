@@ -4,6 +4,7 @@ import {userDataSource} from "../service/database.service";
 import {UserService} from "../service/user.service";
 import {ValidationService} from "../service/validation.service";
 import {VariableService} from "../service/variable.service";
+import {AuthService} from "../service/auth.service";
 
 export default class AuthController {
     public path = VariableService.authPath
@@ -41,7 +42,7 @@ export default class AuthController {
 
             if ((await UserService.findUser(user))) {
                 console.log(`${VariableService.user} ${user.email} ${VariableService.loggedIn}`)
-                return response.status(200).send(VariableService.successfulLogin)
+                return response.status(200).json({error: false, message: VariableService.successfulLogin, token: AuthService.getJwtToken(user)})
             }
 
             console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.login} ${VariableService.usingThisEmail} ${user.email}`)
@@ -64,7 +65,7 @@ export default class AuthController {
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
                 // TODO add token generation here -> no redirection, just authService & generate token here & in login endpoint
                 console.log(`${VariableService.user} ${user.email} ${VariableService.accountCreated}`)
-                return response.status(200).send(VariableService.registered)
+                return response.status(200).json({error: false, message: VariableService.registered, token: AuthService.getJwtToken(user)})
             }
 
             console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.usingThisEmail} ${user.email}`)

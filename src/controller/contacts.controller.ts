@@ -1,4 +1,5 @@
 import * as express from 'express'
+import {AuthService} from "../service/auth.service";
 
 export default class ContactsController {
     public path = '/contacts'
@@ -13,8 +14,10 @@ export default class ContactsController {
         this.router.get(`${this.path}/getContacts`, this.getContacts)
     }
 
-    private addContacts(request: express.Request, response: express.Response){
-        response.send('Added contacts')
+    private async addContacts(request: express.Request, response: express.Response){
+        if((await AuthService.validateJwtToken(request.body.token)))
+            return response.send("Token validated")
+        return response.send('Not valid')
     }
 
     private getContacts(request: express.Request, response: express.Response){
