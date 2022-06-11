@@ -3,9 +3,10 @@ import {User} from "../interface/user.type";
 import {userDataSource} from "../service/database.service";
 import {UserService} from "../service/user.service";
 import {ValidationService} from "../service/validation.service";
+import {VariableService} from "../service/variable.service";
 
 export default class AuthController {
-    public path = '/auth'
+    public path = VariableService.authPath
     public router = express.Router()
 
     constructor() {
@@ -14,18 +15,18 @@ export default class AuthController {
     }
 
     public initRoutes(){
-        this.router.post(`${this.path}/login`, this.login)
-        this.router.post(`${this.path}/register`, this.register)
+        this.router.post(`${this.path}${VariableService.endpointLogin}`, this.login)
+        this.router.post(`${this.path}${VariableService.endpointRegister}`, this.register)
     }
 
     public initDatabaseConnection(){
         userDataSource
             .initialize()
             .then(() => {
-                console.log("Data Source has been initialized!")
+                console.log(VariableService.dataSourceUpMessage)
             })
             .catch((err) => {
-                console.error("Error during Data Source initialization:", err)
+                console.error(VariableService.dataSourceDownMessage, err)
             })
     }
 
@@ -34,20 +35,20 @@ export default class AuthController {
             const user: User = request.body
 
             if(!ValidationService.validateEmail(user.email)) {
-                console.log(`Someone from IP ${request.ip} tried to login with invalid email: ${user.email}`)
-                return response.status(400).send("Your email is not valid")
+                console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.login} ${VariableService.withInvalidEmail} ${user.email}`)
+                return response.status(400).send(VariableService.invalidEmail)
             }
 
             if ((await UserService.findUser(user))) {
-                console.log(`User ${user.email} just logged in`)
-                return response.status(200).send("Logged Successfully")
+                console.log(`${VariableService.user} ${user.email} ${VariableService.loggedIn}`)
+                return response.status(200).send(VariableService.successfulLogin)
             }
 
-            console.log(`Someone from ${request.ip} tried 2 login using this email: ${user.email}`)
-            return response.status(500).send("Something went wrong.")
+            console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.login} ${VariableService.usingThisEmail} ${user.email}`)
+            return response.status(500).send(VariableService.somethingWentWrong)
         } catch(e) {
-            console.log(`Error ${e}`)
-            return response.status(400).send("Bad request")
+            console.log(`${VariableService.justError} ${e}`)
+            return response.status(400).send(VariableService.badRequest)
         }
     }
 
@@ -56,20 +57,20 @@ export default class AuthController {
             const user: User = request.body
 
             if(!ValidationService.validateEmail(user.email)) {
-                console.log(`Someone from IP ${request.ip} tried to register with invalid email: ${user.email}`)
-                return response.status(400).send("Your email is not valid")
+                console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.withInvalidEmail} ${user.email}`)
+                return response.status(400).send(VariableService.invalidEmail)
             }
 
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
-                console.log(`User ${user.email} just created account`)
-                return response.status(200).send("Account created successfully, you're already logged in")
+                console.log(`${VariableService.user} ${user.email} ${VariableService.accountCreated}`)
+                return response.status(200).send(VariableService.registered)
             }
 
-            console.log(`Someone from ${request.ip} tried 2 register using this email: ${user.email}`)
-            return response.status(500).send("Something went wrong. Probably email is already taken")
+            console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.usingThisEmail} ${user.email}`)
+            return response.status(500).send(`${VariableService.somethingWentWrong} ${VariableService.emailIsAlreadyTaken}`)
         } catch(e) {
-            console.log(`Error ${e}`)
-            return response.status(400).send("Bad request")
+            console.log(`${VariableService.justError} ${e}`)
+            return response.status(400).send(VariableService.badRequest)
         }
     }
 
