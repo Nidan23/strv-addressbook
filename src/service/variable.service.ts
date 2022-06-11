@@ -26,9 +26,14 @@ export class VariableService{
     public static withInvalidEmail: string = "with invalid email:"
     public static usingThisEmail: string = "using this email:"
     public static emailIsAlreadyTaken: string = "Probably email is already taken"
+    public static verifyTokenError: string = "Someone try to use API with invalid token"
 
     // Endpoints
     public static authPath: string = "/auth"
     public static endpointLogin: string = "/login"
     public static endpointRegister: string = "/register"
+
+    // Token
+    public static secretKey: string = "I Love Typescript!"
+    public static tokenExpirationTime: string = "1h"
 }
