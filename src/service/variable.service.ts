@@ -5,6 +5,7 @@ export class VariableService{
     //  Datasource
     public static dataSourceUpMessage: string = "Data Source has been initialized!"
     public static dataSourceDownMessage: string = "Error during Data Source initialization:"
+    public static databasePort: string = "5432"
 
     // Logging & Response
     public static logSomeoneFromIP: string = "Someone from IP"
@@ -15,6 +16,7 @@ export class VariableService{
     public static loggedIn: string = "just logged in"
     public static successfulLogin: string = "Logged Successfully"
     public static contactsAddedToYourAccount = "Contacts were successfully added to your account"
+    public static appStart: string = "App is running on port"
 
     // Actions
     public static login: string = "login"
@@ -45,7 +47,7 @@ export class VariableService{
     // Firebase
     public static userCollectionPath: string = "/users"
     public static contactsCollectionPath: string = "/contacts"
-    public static certPath: string = "./src/assets/firebase_key.json"
+    public static certPath: string = "./src/assets/keys/firebase_key.json"
 
     public static getResponseJson(message: string, token?: string, error?: boolean): ServerResponse{
         return {error: error != null ? error : true, message: message, token: token ? token : ''}
