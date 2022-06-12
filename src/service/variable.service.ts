@@ -38,6 +38,7 @@ export class VariableService{
     public static endpointLogin: string = "/login"
     public static endpointRegister: string = "/register"
     public static addContacts: string = "/addContacts"
+    public static appPort: string = "3000"
 
     // Token
     public static secretKey: string = "I Love Typescript!"
