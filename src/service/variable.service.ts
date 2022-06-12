@@ -1,3 +1,4 @@
+import {ServerResponse} from "../interface/serverResponse.type";
 
 export class VariableService{
 
@@ -13,6 +14,7 @@ export class VariableService{
     public static user: string = "User"
     public static loggedIn: string = "just logged in"
     public static successfulLogin: string = "Logged Successfully"
+    public static contactsAddedToYourAccount = "Contacts were successfully added to your account"
 
     // Actions
     public static login: string = "login"
@@ -30,15 +32,22 @@ export class VariableService{
 
     // Endpoints
     public static authPath: string = "/auth"
+    public static contactsPath: string = "/contacts"
     public static endpointLogin: string = "/login"
     public static endpointRegister: string = "/register"
+    public static addContacts: string = "/addContacts"
 
     // Token
     public static secretKey: string = "I Love Typescript!"
     public static tokenExpirationTime: string = "1h"
+    public static invalidToken: string = "Your token is invalid"
 
     // Firebase
     public static userCollectionPath: string = "/users"
     public static contactsCollectionPath: string = "/contacts"
     public static certPath: string = "./src/assets/firebase_key.json"
+
+    public static getResponseJson(message: string, token?: string, error?: boolean): ServerResponse{
+        return {error: error != null ? error : true, message: message, token: token ? token : ''}
+    }
 }
