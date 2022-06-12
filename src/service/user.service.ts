@@ -1,5 +1,5 @@
 import {User} from "../interface/user.type";
-import {userDataSource} from "./database.service";
+import {UserDataSource} from "./database.service";
 import {UserEntity} from "../entity/user.entity";
 
 export class UserService{
@@ -34,6 +34,6 @@ export class UserService{
     }
 
     public static getUserRepository(){
-        return userDataSource.getRepository(UserEntity)
+        return UserDataSource.userDataSource.getRepository(UserEntity)
     }
 }

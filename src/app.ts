@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import {VariableService} from "./service/variable.service";
 
 export default class App {
     public app: express.Application
@@ -7,7 +8,7 @@ export default class App {
 
     constructor(controllers: any[], port: any) {
         this.app = express()
-        this.port = parseInt(port)
+        this.port = parseInt(port || VariableService.databasePort)
 
         this.initMiddlewares()
         this.initControllers(controllers)
@@ -25,7 +26,7 @@ export default class App {
 
     public listen(){
         this.app.listen(this.port, () => {
-            console.log(`App is running on port ${this.port}`)
+            console.log(`${VariableService.appStart} ${this.port}`)
         })
     }
 }
