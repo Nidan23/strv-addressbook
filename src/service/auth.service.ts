@@ -25,8 +25,6 @@ export class AuthService{
                 data: user
             }
         } catch (e){
-            console.log(VariableService.verifyTokenError)
-
             return {
                 isValid: false
             }
