@@ -42,7 +42,7 @@ export default class AuthController {
             return response.status(500).json(VariableService.getResponseJson(VariableService.somethingWentWrong))
         } catch(e) {
             console.log(`${VariableService.justError} ${e}`)
-            return response.status(400).json(VariableService.badRequest)
+            return response.status(400).json(VariableService.getResponseJson(VariableService.badRequest))
         }
     }
 
@@ -52,7 +52,7 @@ export default class AuthController {
 
             if(!ValidationService.validateEmail(user.email)) {
                 console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.withInvalidEmail} ${user.email}`)
-                return response.status(400).json(VariableService.invalidEmail)
+                return response.status(400).json(VariableService.getResponseJson(VariableService.invalidEmail))
             }
 
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
@@ -61,10 +61,10 @@ export default class AuthController {
             }
 
             console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.usingThisEmail} ${user.email}`)
-            return response.status(500).json(`${VariableService.somethingWentWrong} ${VariableService.emailIsAlreadyTaken}`)
+            return response.status(500).json(VariableService.getResponseJson(`${VariableService.somethingWentWrong} ${VariableService.emailIsAlreadyTaken}`))
         } catch(e) {
             console.log(`${VariableService.justError} ${e}`)
-            return response.status(400).json(VariableService.badRequest)
+            return response.status(400).json(VariableService.getResponseJson(VariableService.badRequest))
         }
     }
 
