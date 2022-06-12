@@ -27,13 +27,13 @@ export default class ContactsController {
 
         if(!validationData.isValid) {
             console.log(VariableService.verifyTokenError)
-            return response.json(VariableService.getResponseJson(VariableService.invalidToken))
+            return response.status(400).json(VariableService.getResponseJson(VariableService.invalidToken))
         }
 
         if(await FirebaseService.addContact(validationData.data, contacts)) {
             console.log(`${VariableService.contactsAddedToUserAccount} ${validationData.data.email}`)
             return response.json(VariableService.getResponseJson(VariableService.contactsAddedToYourAccount, AuthService.getJwtToken(validationData.data), false))
         }
-        return response.json(VariableService.getResponseJson(VariableService.somethingWentWrong))
+        return response.status(500).json(VariableService.getResponseJson(VariableService.somethingWentWrong))
     }
 }
