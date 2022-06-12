@@ -1,7 +1,7 @@
 # Installation
 
  - Install docker on your machine
- - Replace `${DOCKER_IP}` with your IP
+ - Replace `${DOCKER_IP}` in `docker-compose.yml` with your IP
  - Run `./run.bat`
 
 # Tests
