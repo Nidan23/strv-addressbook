@@ -8,7 +8,7 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      DB_HOST: 192.168.100.219
+      DB_HOST: 192.168.100.219 # Change here to your IP
       DB_PORT: 5432
       DB_USER: docker
       DB_PASSWORD: docker
@@ -35,4 +35,3 @@ services:
       - '5432:5432'
     volumes:
       - ./src/assets/databaseInit:/docker-entrypoint-initdb.d/
-  #      - ./src/assets/databaseInit/init.databaseInit:/docker-entrypoint-initdb.d/create_tables.databaseInit

@@ -17,6 +17,7 @@ export class VariableService{
     public static successfulLogin: string = "Logged Successfully"
     public static contactsAddedToYourAccount = "Contacts were successfully added to your account"
     public static appStart: string = "App is running on port"
+    public static contactsAddedToUserAccount: string = "Contacts added successfully to account of user: "
 
     // Actions
     public static login: string = "login"
@@ -38,6 +39,7 @@ export class VariableService{
     public static endpointLogin: string = "/login"
     public static endpointRegister: string = "/register"
     public static addContacts: string = "/addContacts"
+    public static appPort: string = "3000"
 
     // Token
     public static secretKey: string = "I Love Typescript!"
@@ -50,6 +52,6 @@ export class VariableService{
     public static certPath: string = "./src/assets/keys/firebase_key.json"
 
     public static getResponseJson(message: string, token?: string, error?: boolean): ServerResponse{
-        return {error: error != null ? error : true, message: message, token: token ? token : ''}
+        return {error: error != null ? error : true, message: message, token: token ? token : undefined}
     }
 }

@@ -1,0 +1,7 @@
+{
+  "register": "/auth/register",
+  "login": "/auth/login",
+  "addContacts": "/contacts/addContacts",
+  "protocol": "http://",
+  "host": "localhost:3000"
+}

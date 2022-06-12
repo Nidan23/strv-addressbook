@@ -8,7 +8,7 @@ export default class App {
 
     constructor(controllers: any[], port: any) {
         this.app = express()
-        this.port = parseInt(port || VariableService.databasePort)
+        this.port = parseInt(port || VariableService.appPort)
 
         this.initMiddlewares()
         this.initControllers(controllers)

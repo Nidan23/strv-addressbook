@@ -1,0 +1,52 @@
+{
+  "loginAndRegister": {
+    "registerData": {
+      "email": "hello@there.com",
+      "password": "General Kenobi"
+    },
+    "loginData": {
+      "email": "jeeeez123@bla.com",
+      "password": "ASAP"
+    },
+    "wrongTestData": {
+      "email": "jeeeez123bla.com",
+      "password": "ASAP"
+    }
+  },
+  "contacts": {
+    "add": {
+      "token": "",
+      "data": [
+        {
+          "firstName": "General",
+          "lastName": "Kenobi",
+          "phoneNumber": "+48 911 911 911",
+          "address": "WTC"
+        },
+        {
+          "firstName": "Hello",
+          "lastName": "There",
+          "phoneNumber": "+44 666 999 666",
+          "address": "Area 51"
+        }
+      ]
+    },
+    "wrongTestData": {
+      "token": "",
+      "data": [
+        {
+          "firstame": "General",
+          "lastName": "Kenobi",
+          "phoneNumber": "+48 911 911 911",
+          "address": "WTC"
+        },
+        {
+          "firstName": "Hello",
+          "lastName": "There",
+          "phoneNumber": "+44 666 999 666",
+          "address": "Area 51"
+        }
+      ]
+    }
+  }
+}
