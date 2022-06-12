@@ -19,11 +19,14 @@ export class FirebaseService{
         this.db = getFirestore(this.app)
     }
 
-    public static addContact(user: User, payload: Contact[]): Promise<boolean>{
+    public static addContact(user: User, payload: Contact[]): Promise<boolean> {
         return new Promise<boolean>(async resolve => {
             const userContactsPath = this.db.collection(VariableService.userCollectionPath).doc(user.email).collection(VariableService.contactsCollectionPath)
 
             for (const contact of payload) {
+                if(!contact.lastName)
+                    return resolve(false)
+
                 const contactPath = userContactsPath.doc(contact.lastName)
 
                 const returnValue = await contactPath.set(contact)
