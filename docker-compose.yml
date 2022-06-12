@@ -35,4 +35,8 @@ services:
       - '5432:5432'
     volumes:
       - ./src/assets/databaseInit:/docker-entrypoint-initdb.d/
-  #      - ./src/assets/databaseInit/init.databaseInit:/docker-entrypoint-initdb.d/create_tables.databaseInit
+  rest-api-tests:
+    build: ./test
+    depends_on:
+      - postgres
+      - rest-api
