@@ -3,12 +3,11 @@ import {AuthService} from "../service/auth.service";
 import {UserValidation} from "../interface/validation.type";
 import {Contact} from "../interface/contact.type";
 import {FirebaseService} from "../service/firebase.service";
+import {VariableService} from "../service/variable.service";
 
 export default class ContactsController {
-    public path = '/contacts'
+    public path = VariableService.contactsPath
     public router = express.Router()
-    private app: any
-    private analytics: any
 
     constructor() {
         this.initRoutes()
@@ -16,7 +15,7 @@ export default class ContactsController {
     }
 
     public initRoutes(){
-        this.router.post(`${this.path}/addContacts`, this.addContacts)
+        this.router.post(`${this.path}${VariableService.addContacts}`, this.addContacts)
     }
     public initFirebase(){
         FirebaseService.firebaseInit()
@@ -26,13 +25,13 @@ export default class ContactsController {
         const contacts: Contact[] = request.body.data
         const validationData: UserValidation = await AuthService.validateJwtToken(request.body.token)
 
-        if(!validationData.isValid)
-            return response.send('Not valid')
-
+        if(!validationData.isValid) {
+            return response.json(VariableService.getResponseJson(VariableService.invalidToken))
+        }
 
         if(await FirebaseService.addContact(validationData.data, contacts))
-            return response.send("Contact added 2 your account")
+            return response.json(VariableService.getResponseJson(VariableService.contactsAddedToYourAccount, AuthService.getJwtToken(validationData.data)))
 
-        return response.send("Something went wrong")
+        return response.json(VariableService.getResponseJson(VariableService.somethingWentWrong))
     }
 }
