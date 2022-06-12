@@ -1,0 +1,5 @@
+{
+  "register": "http://localhost:3000/auth/register",
+  "login": "http://localhost:3000/auth/login",
+  "addContacts": "http://localhost:3000/contacts/addContacts"
+}
