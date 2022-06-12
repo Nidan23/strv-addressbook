@@ -1,6 +1,6 @@
 import * as express from 'express'
 import {User} from "../interface/user.type";
-import {userDataSource} from "../service/database.service";
+import {UserDataSource} from "../service/database.service";
 import {UserService} from "../service/user.service";
 import {ValidationService} from "../service/validation.service";
 import {VariableService} from "../service/variable.service";
@@ -21,14 +21,7 @@ export default class AuthController {
     }
 
     public initDatabaseConnection(){
-        userDataSource
-            .initialize()
-            .then(() => {
-                console.log(VariableService.dataSourceUpMessage)
-            })
-            .catch((err) => {
-                console.error(VariableService.dataSourceDownMessage, err)
-            })
+        UserDataSource.initDatabaseConnection()
     }
 
     private async login(request: express.Request, response: express.Response) {
@@ -37,19 +30,19 @@ export default class AuthController {
 
             if(!ValidationService.validateEmail(user.email)) {
                 console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.login} ${VariableService.withInvalidEmail} ${user.email}`)
-                return response.status(400).send(VariableService.invalidEmail)
+                return response.status(400).json(VariableService.getResponseJson(VariableService.invalidEmail))
             }
 
             if ((await UserService.findUser(user))) {
                 console.log(`${VariableService.user} ${user.email} ${VariableService.loggedIn}`)
-                return response.status(200).json({error: false, message: VariableService.successfulLogin, token: AuthService.getJwtToken(user)})
+                return response.status(200).json(VariableService.getResponseJson(VariableService.successfulLogin, AuthService.getJwtToken(user), false))
             }
 
             console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.login} ${VariableService.usingThisEmail} ${user.email}`)
-            return response.status(500).send(VariableService.somethingWentWrong)
+            return response.status(500).json(VariableService.getResponseJson(VariableService.somethingWentWrong))
         } catch(e) {
             console.log(`${VariableService.justError} ${e}`)
-            return response.status(400).send(VariableService.badRequest)
+            return response.status(400).json(VariableService.badRequest)
         }
     }
 
@@ -59,20 +52,19 @@ export default class AuthController {
 
             if(!ValidationService.validateEmail(user.email)) {
                 console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.withInvalidEmail} ${user.email}`)
-                return response.status(400).send(VariableService.invalidEmail)
+                return response.status(400).json(VariableService.invalidEmail)
             }
 
             if (!(await UserService.findUser(user)) && (await UserService.saveUser(user))) {
-                // TODO add token generation here -> no redirection, just authService & generate token here & in login endpoint
                 console.log(`${VariableService.user} ${user.email} ${VariableService.accountCreated}`)
-                return response.status(200).json({error: false, message: VariableService.registered, token: AuthService.getJwtToken(user)})
+                return response.status(200).json(VariableService.getResponseJson(VariableService.registered, AuthService.getJwtToken(user), false))
             }
 
             console.log(`${VariableService.logSomeoneFromIP} ${request.ip} ${VariableService.triedTo} ${VariableService.register} ${VariableService.usingThisEmail} ${user.email}`)
-            return response.status(500).send(`${VariableService.somethingWentWrong} ${VariableService.emailIsAlreadyTaken}`)
+            return response.status(500).json(`${VariableService.somethingWentWrong} ${VariableService.emailIsAlreadyTaken}`)
         } catch(e) {
             console.log(`${VariableService.justError} ${e}`)
-            return response.status(400).send(VariableService.badRequest)
+            return response.status(400).json(VariableService.badRequest)
         }
     }
 
