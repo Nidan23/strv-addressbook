@@ -26,7 +26,7 @@ export class FirebaseService{
             for (const contact of payload) {
                 const contactPath = userContactsPath.doc(contact.lastName)
 
-                const returnValue = await contactPath.set(payload)
+                const returnValue = await contactPath.set(contact)
                     .catch(err => {
                         console.log(err)
                         return resolve(!!returnValue)
