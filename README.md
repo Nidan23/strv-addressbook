@@ -58,4 +58,5 @@ You can find all examples in `./test/assets/test_data.json`
 
 # Where is deployed?
 
-// TODO
+DB is running remotly on: 34.65.204.245
+App is running here: https://strv-addressbook-eslovg73ka-lz.a.run.app
