@@ -1,11 +1,11 @@
 {
   "loginAndRegister": {
     "registerData": {
-      "email": "hello@there.com",
+      "email": "hell@there.com",
       "password": "General Kenobi"
     },
     "loginData": {
-      "email": "jeeeez123@bla.com",
+      "email": "jeeeezaass@bla.com",
       "password": "ASAP"
     },
     "wrongTestData": {
@@ -36,15 +36,15 @@
       "data": [
         {
           "firstame": "General",
-          "lastName": "Kenobi",
-          "phoneNumber": "+48 911 911 911",
-          "address": "WTC"
+          "lastame": "Kenobi",
+          "phoneumber": "+48 911 911 911",
+          "adress": "WTC"
         },
         {
-          "firstName": "Hello",
-          "lastName": "There",
-          "phoneNumber": "+44 666 999 666",
-          "address": "Area 51"
+          "firstNae": "Hello",
+          "lastNme": "There",
+          "phneNumber": "+44 666 999 666",
+          "addres": "Area 51"
         }
       ]
     }

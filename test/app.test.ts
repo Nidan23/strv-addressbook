@@ -70,7 +70,6 @@ describe("Adding Contacts", () => {
                 expect(true).toBe(false)
             })
             .catch(err => {
-                console.log(err)
                 const responseData = err.response.data
                 expect(responseData.error).toBe(true)
                 expect(responseData.message).toBe("Something went wrong.")
@@ -86,7 +85,6 @@ describe("Adding Contacts", () => {
                 expect(true).toBe(false)
             })
             .catch(err => {
-                console.log(err)
                 const responseData = err.response.data
                 expect(responseData.error).toBe(true)
                 expect(responseData.message).toBe("Your token is invalid")
