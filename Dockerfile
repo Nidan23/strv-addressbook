@@ -1,7 +1,7 @@
 FROM node:18.1.0
 
 RUN mkdir -p /usr/src/strv
-
+# Here replace with your DB IP
 ENV DB_HOST=34.65.204.245 DB_PORT=5432 DB_USER=docker DB_PASSWORD=docker DB_NAME=docker
 
 COPY src /usr/src/strv/src
